@@ -1,27 +1,460 @@
-
+<!DOCTYPE html>
+<html lang="ro">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bokit - Lansare 28 Mai 2026</title>
-  <meta name="description" content="Bokit - cea mai mare platforma de rezervari si organizare. Lansare 28 Mai 2026.">
   <title>Bokit - Lansare 20 Mai 2026</title>
   <meta name="description" content="Bokit - cea mai mare platforma de rezervari si organizare. Lansare 20 Mai 2026.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #0d111b;
+      --bg-elevated: rgba(19, 25, 39, 0.78);
+      --bg-soft: #131927;
+      --border: rgba(143, 172, 227, 0.15);
+      --border-strong: rgba(143, 172, 227, 0.28);
+      --text: #f4f7fb;
+      --text-soft: #a4afc2;
+      --accent: #84b6ff;
+      --accent-strong: #5c92f0;
+      --accent-glow: rgba(132, 182, 255, 0.2);
+      --success: #9ce6b1;
+      --shadow: 0 24px 90px rgba(2, 6, 14, 0.55);
+    }
+
+    html, body {
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top center, rgba(92, 146, 240, 0.2), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(84, 151, 125, 0.12), transparent 24%),
+        linear-gradient(180deg, #0b0f18 0%, #0d111b 45%, #0a0e16 100%);
+      color: var(--text);
+      font-family: "Manrope", sans-serif;
+      overflow-x: hidden;
+    }
+
+    body {
+      position: relative;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(143, 172, 227, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(143, 172, 227, 0.08) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #particles {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .shell {
+      position: relative;
+      z-index: 1;
+      width: min(960px, 100%);
+    }
+
+    .card {
+      padding: 40px;
+      border-radius: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+        var(--bg-elevated);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border-strong);
+      background: rgba(92, 146, 240, 0.1);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      animation: fade-up 700ms ease forwards;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 18px rgba(156, 230, 177, 0.65);
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    .headline {
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      animation: fade-up 820ms ease forwards;
+      animation-delay: 80ms;
+      opacity: 0;
+    }
+
+    .headline span {
+      display: block;
+    }
+
+    .headline .muted {
+      color: var(--text-soft);
+      font-weight: 600;
+      font-size: 0.5em;
+      letter-spacing: -0.03em;
+      margin-top: 10px;
+    }
+
+    .headline .accent {
+      background: linear-gradient(135deg, #d8e9ff 0%, #84b6ff 42%, #5c92f0 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      width: min(650px, 100%);
+      margin: 24px auto 0;
+      color: var(--text-soft);
+      font-size: clamp(1rem, 1.8vw, 1.12rem);
+      line-height: 1.75;
+      animation: fade-up 820ms ease forwards;
+      animation-delay: 160ms;
+      opacity: 0;
+    }
+
+    .divider {
+      width: 1px;
+      height: 54px;
+      margin: 36px auto 28px;
+      background: linear-gradient(180deg, transparent, var(--accent), transparent);
+      animation: fade-up 820ms ease forwards;
+      animation-delay: 240ms;
+      opacity: 0;
+    }
+
+    .launch-label {
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 11px;
+      font-weight: 800;
+      animation: fade-up 820ms ease forwards;
+      animation-delay: 340ms;
+      opacity: 0;
+    }
+
+    .launch-date {
+      margin-top: 10px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      animation: fade-up 820ms ease forwards;
+      animation-delay: 420ms;
+      opacity: 0;
+    }
+
+    .countdown {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 120px));
+      justify-content: center;
+      gap: 14px;
+      animation: fade-up 820ms ease forwards;
+      animation-delay: 500ms;
+      opacity: 0;
+    }
+
+    .countdown-item {
+      padding: 18px 10px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015));
+    }
+
+    .countdown-num {
+      display: block;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 1;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .countdown-unit {
+      display: block;
+      margin-top: 8px;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 30px;
+      color: #66728a;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-size: 11px;
+      font-weight: 800;
+      animation: fade-up 820ms ease forwards;
+      animation-delay: 680ms;
+      opacity: 0;
+    }
+
+    .footer-line {
+      width: 34px;
+      height: 1px;
+      background: rgba(143, 172, 227, 0.18);
+    }
+
+    .founder {
+      margin-top: 14px;
+      color: #6f7b91;
+      font-size: 12px;
+      animation: fade-up 820ms ease forwards;
+      animation-delay: 760ms;
+      opacity: 0;
+    }
+
+    .founder strong {
+      color: var(--text-soft);
+      font-weight: 700;
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(0.78);
+        opacity: 0.55;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .card {
+        padding: 32px 20px;
+      }
+
+      .countdown {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+    }
+
+    @media (max-width: 420px) {
+      body {
+        padding: 14px;
+      }
+
+      .badge {
+        margin-bottom: 22px;
+      }
+
+      .divider {
+        height: 42px;
+        margin: 26px auto 24px;
+      }
+
+      .countdown-item {
+        border-radius: 16px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles" aria-hidden="true"></canvas>
+
+  <main class="shell">
+    <section class="card">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        CurÃ¢nd disponibil
+      </div>
+
+      <h1 class="headline">
+        <span>Cea mai mare</span>
+        <span class="accent">platformÄƒ de rezervÄƒri</span>
+        <span class="muted">È™i organizare</span>
+      </h1>
+
+      <p class="subtitle">
+        O experienÈ›Äƒ construitÄƒ pentru cei care vor mai mult.
+      </p>
+
       <div class="divider"></div>
 
-      <div class="launch-label">Data lansării</div>
-      <div class="launch-date">28 Mai 2026</div>
+      <div class="launch-label">Data lansÄƒrii</div>
       <div class="launch-date">20 Mai 2026</div>
 
-      <div class="countdown" aria-label="Numărătoare inversă până la lansare">
+      <div class="countdown" aria-label="NumÄƒrÄƒtoare inversÄƒ pÃ¢nÄƒ la lansare">
         <div class="countdown-item">
+          <span class="countdown-num" id="cd-days">--</span>
+          <span class="countdown-unit">Zile</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-num" id="cd-hours">--</span>
+          <span class="countdown-unit">Ore</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-num" id="cd-mins">--</span>
+          <span class="countdown-unit">Minute</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-num" id="cd-secs">--</span>
+          <span class="countdown-unit">Secunde</span>
+        </div>
+      </div>
+
+      <div class="footer">
+        <span class="footer-line"></span>
+        <span>Bokit</span>
+        <span class="footer-line"></span>
+      </div>
+
+      <p class="founder">creat de <strong>GhiÈ›Äƒ Robert</strong></p>
+    </section>
+  </main>
+
+  <script>
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+    let particles = [];
+
+    function rand(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function resizeCanvas() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      particles = Array.from({ length: width < 640 ? 26 : 48 }, () => ({
+        x: rand(0, width),
+        y: rand(0, height),
+        r: rand(0.6, 2.2),
+        dx: rand(-0.08, 0.08),
+        dy: rand(-0.22, -0.05),
+        opacity: rand(0.08, 0.35)
+      }));
+    }
+
+    function drawParticles() {
+      if (reduceMotion) {
+        ctx.clearRect(0, 0, width, height);
+        return;
+      }
+
+      ctx.clearRect(0, 0, width, height);
+
+      for (const p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(132, 182, 255, " + p.opacity + ")";
+        ctx.fill();
+
+        p.x += p.dx;
+        p.y += p.dy;
+
+        if (p.y < -10) {
+          p.y = height + 10;
+          p.x = rand(0, width);
+        }
+
+        if (p.x < -10) p.x = width + 10;
+        if (p.x > width + 10) p.x = -10;
+      }
+
+      window.requestAnimationFrame(drawParticles);
+    }
+
+    resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
     drawParticles();
 
-    const launchTimestamp = Date.UTC(2026, 4, 27, 21, 0, 0);
     const launchTimestamp = Date.UTC(2026, 4, 19, 21, 0, 0);
 
     function updateCountdown() {
       const diff = launchTimestamp - Date.now();
+      const safeDiff = Math.max(diff, 0);
+
+      const days = Math.floor(safeDiff / 86400000);
+      const hours = Math.floor((safeDiff % 86400000) / 3600000);
+      const minutes = Math.floor((safeDiff % 3600000) / 60000);
+      const seconds = Math.floor((safeDiff % 60000) / 1000);
+
+      document.getElementById("cd-days").textContent = String(days).padStart(2, "0");
+      document.getElementById("cd-hours").textContent = String(hours).padStart(2, "0");
+      document.getElementById("cd-mins").textContent = String(minutes).padStart(2, "0");
+      document.getElementById("cd-secs").textContent = String(seconds).padStart(2, "0");
+    }
+
+    updateCountdown();
+    window.setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
