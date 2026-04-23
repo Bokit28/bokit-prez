@@ -77,7 +77,6 @@
     width: 100%;
   }
 
-  /* Badge */
   .badge {
     display: inline-flex;
     align-items: center;
@@ -109,7 +108,6 @@
     50% { opacity: 0.4; transform: scale(0.75); }
   }
 
-  /* Headline */
   .headline {
     font-size: clamp(2.8rem, 7vw, 5.5rem);
     font-weight: 700;
@@ -142,7 +140,6 @@
     margin-top: 0.2em;
   }
 
-  /* Subtitle */
   .subtitle {
     font-size: clamp(0.9rem, 2vw, 1.05rem);
     font-weight: 400;
@@ -163,7 +160,6 @@
     animation: fadeUp 0.9s ease forwards 0.6s;
   }
 
-  /* Launch */
   .launch-block {
     display: inline-flex;
     flex-direction: column;
@@ -188,7 +184,6 @@
     color: var(--text);
   }
 
-  /* Countdown */
   .countdown {
     display: flex;
     gap: clamp(0.5rem, 2vw, 1rem);
@@ -236,7 +231,6 @@
     font-weight: 300;
   }
 
-  /* Bottom */
   .bottom {
     margin-top: 3rem;
     opacity: 0;
@@ -350,7 +344,6 @@
 <canvas id="particles"></canvas>
 
 <script>
-  // Particles
   const canvas = document.getElementById('particles');
   const ctx = canvas.getContext('2d');
   let W, H, particles = [];
